@@ -13,7 +13,6 @@ public:
         static FileLoggerSingletone theInstance;
         return theInstance;
     };
-    ofstream logOut;
     void __fastcall OpenLogFile(const string& FN);
     void CloseLogFile();
     void __fastcall WriteToLog(const string& str);
@@ -23,4 +22,5 @@ private:
     FileLoggerSingletone() {};
     FileLoggerSingletone(const FileLoggerSingletone& root) = delete;
     FileLoggerSingletone& operator=(const FileLoggerSingletone&) = delete;
+    ofstream logOut;
 };
