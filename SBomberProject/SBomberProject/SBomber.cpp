@@ -8,7 +8,7 @@
 #include "Ground.h"
 #include "Tank.h"
 #include "House.h"
-#include "LoggerSingletone.h"
+#include "FileLogger.h"
 
 using namespace std;
 using namespace MyTools;
