@@ -1,6 +1,7 @@
 #include "Command.h"
 #include "FileLogger.h"
 #include "SBomber.h"
+#include "BombDecorator.h"
 
 void __fastcall CommandDeleteDynamicObj::execute()
 {
@@ -33,7 +34,6 @@ void CommandDropBomb :: execute() {
     {
         FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
 
-        //Plane* pPlane = game->FindPlane();
         double x = pPlane->GetX() + 4;
         double y = pPlane->GetY() + 2;
 
@@ -47,5 +47,25 @@ void CommandDropBomb :: execute() {
         bombsNumber--;
         score -= Bomb::BombCost;
     }
+}
 
+void CommandDropBombDecor::execute()
+{
+    if (bombsNumber > 0)
+    {
+        FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
+
+        double x = pPlane->GetX() + 4;
+        double y = pPlane->GetY() + 2;
+
+        BombDecorator* pBomb = new BombDecorator;
+        pBomb->SetDirection(0.3, 1);
+        pBomb->SetSpeed(bombSpeed);
+        pBomb->SetPos(x, y);
+        pBomb->SetWidth(craterSize);
+
+        vecDynamicObj.push_back(pBomb);
+        bombsNumber--;
+        score -= Bomb::BombCost;
+    }
 }

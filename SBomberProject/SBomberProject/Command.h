@@ -35,11 +35,18 @@ public:
 	CommandDropBomb(Plane* const _plane, std::vector<DynamicObject*>& _vecDynamicObj, uint16_t& _bombsNumber, int16_t& _score, int16_t _bombSpeed = 2, CraterSize _craterSize = SMALL_CRATER_SIZE)
 		:pPlane(_plane), vecDynamicObj(_vecDynamicObj), bombsNumber(_bombsNumber), score(_score),bombSpeed(_bombSpeed), craterSize(_craterSize){};
 	void execute();
-private:
+protected:
 	Plane* pPlane;
 	std::vector<DynamicObject*>& vecDynamicObj;
 	uint16_t& bombsNumber;
 	int16_t& score;
 	int16_t bombSpeed;
 	CraterSize craterSize;
+};
+class CommandDropBombDecor : public CommandDropBomb
+{
+public:
+	CommandDropBombDecor(Plane* const _plane, std::vector<DynamicObject*>& _vecDynamicObj, uint16_t& _bombsNumber, int16_t& _score, int16_t _bombSpeed = 2, CraterSize _craterSize = SMALL_CRATER_SIZE)
+		:CommandDropBomb(_plane, _vecDynamicObj, _bombsNumber, _score) {};
+	void execute();
 };

@@ -9,6 +9,7 @@
 #include "Tank.h"
 #include "House.h"
 #include "FileLogger.h"
+#include "BombDecorator.h"
 
 using namespace std;
 using namespace MyTools;
@@ -124,7 +125,7 @@ void SBomber::CheckPlaneAndLevelGUI()
 
 void SBomber::CheckBombsAndGround() 
 {
-    vector<Bomb*> vecBombs = FindAllBombs();
+    vector<DynamicObject*> vecBombs = FindAllBombs();
     Ground* pGround = FindGround();
     const double y = pGround->GetY();
     for (size_t i = 0; i < vecBombs.size(); i++)
@@ -141,7 +142,7 @@ void SBomber::CheckBombsAndGround()
 
 }
 
-void SBomber::CheckDestoyableObjects(Bomb * pBomb)
+void SBomber::CheckDestoyableObjects(DynamicObject * pBomb)
 {
     vector<DestroyableGroundObject*> vecDestoyableObjects = FindDestoyableGroundObjects();
     const double size = pBomb->GetWidth();
@@ -200,9 +201,10 @@ Ground* SBomber::FindGround() const
     return nullptr;
 }
 
-vector<Bomb*> SBomber::FindAllBombs() const
+vector<DynamicObject*> SBomber::FindAllBombs() const
 {
-    vector<Bomb*> vecBombs;
+    //vector<Bomb*> vecBombs;
+    vector<DynamicObject*> vecBombs;
 
     for (size_t i = 0; i < vecDynamicObj.size(); i++)
     {
@@ -212,7 +214,14 @@ vector<Bomb*> SBomber::FindAllBombs() const
             vecBombs.push_back(pBomb);
         }
     }
-
+    for (size_t i = 0; i < vecDynamicObj.size(); i++)
+    {
+        BombDecorator* pDecBomb = dynamic_cast<BombDecorator*>(vecDynamicObj[i]);
+        if (pDecBomb != nullptr)
+        {
+            vecBombs.push_back(pDecBomb);
+        }
+    }
     return vecBombs;
 }
 
@@ -269,9 +278,17 @@ void SBomber::ProcessKBHit()
         FindPlane()->ChangePlaneY(0.25);
         break;
 
+    case 'v':
+        {
+        CommandDropBombDecor* command = new CommandDropBombDecor(FindPlane(), vecDynamicObj, bombsNumber, score);
+        command->execute();
+        delete command;
+        }
+        break;
+
     case 'b':
         {
-        CommandDropBomb * command = new CommandDropBomb(FindPlane(), vecDynamicObj, bombsNumber, score);
+        CommandDropBomb* command = new CommandDropBomb(FindPlane(), vecDynamicObj, bombsNumber, score);
         command->execute();
         delete command;
         }
@@ -279,7 +296,7 @@ void SBomber::ProcessKBHit()
 
     case 'B':
         {
-        CommandDropBomb * command = new CommandDropBomb(FindPlane(), vecDynamicObj, bombsNumber, score);
+        CommandDropBomb* command = new CommandDropBomb(FindPlane(), vecDynamicObj, bombsNumber, score);
         command->execute();
         delete command;
         }

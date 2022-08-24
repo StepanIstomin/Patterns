@@ -32,13 +32,13 @@ private:
 
     void CheckPlaneAndLevelGUI();
     void CheckBombsAndGround();
-    void __fastcall CheckDestoyableObjects(Bomb* pBomb);
+    void __fastcall CheckDestoyableObjects(DynamicObject* pBomb);
 
     Ground * FindGround() const;
     Plane * FindPlane() const;
     LevelGUI * FindLevelGUI() const;
     std::vector<DestroyableGroundObject*> FindDestoyableGroundObjects() const;
-    std::vector<Bomb*> FindAllBombs() const;
+    std::vector<DynamicObject*> FindAllBombs() const;
 
     std::vector<DynamicObject*> vecDynamicObj;                  
     std::vector<GameObject*> vecStaticObj;                   
