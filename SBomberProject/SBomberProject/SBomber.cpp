@@ -112,7 +112,7 @@ void SBomber::CheckObjects()
 
     CheckPlaneAndLevelGUI();
     CheckBombsAndGround();
-};
+}
 
 void SBomber::CheckPlaneAndLevelGUI()
 {
@@ -204,15 +204,18 @@ vector<Bomb*> SBomber::FindAllBombs() const
 {
     vector<Bomb*> vecBombs;
 
-    for (size_t i = 0; i < vecDynamicObj.size(); i++)
+    for (BombIterator it = this->begin(); it != this->end(); ++it)
     {
-        Bomb* pBomb = dynamic_cast<Bomb*>(vecDynamicObj[i]);
-        if (pBomb != nullptr)
-        {
-            vecBombs.push_back(pBomb);
-        }
+        vecBombs.push_back(dynamic_cast<Bomb*>(*it));
     }
-
+    //for (size_t i = 0; i < vecDynamicObj.size(); i++)
+    //{
+    //    Bomb* pBomb = dynamic_cast<Bomb*>(vecDynamicObj[i]);
+    //    if (pBomb != nullptr)
+    //    {
+    //        vecBombs.push_back(pBomb);
+    //    }
+    //}
     return vecBombs;
 }
 
@@ -329,4 +332,17 @@ void SBomber::TimeFinish()
     passedTime += deltaTime;
 
     FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " deltaTime = ", (int)deltaTime);
+}
+
+BombIterator SBomber::begin() const
+{
+    BombIterator it(vecDynamicObj);
+    return it;
+}
+
+BombIterator SBomber::end() const
+{
+    BombIterator it(vecDynamicObj);
+    it.reset();
+    return it;
 }

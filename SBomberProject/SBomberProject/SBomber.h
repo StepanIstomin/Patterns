@@ -8,6 +8,7 @@
 #include "Ground.h"
 #include "Tank.h"
 #include "Command.h"
+#include "BombIterator.h"
 
 class SBomber
 {
@@ -33,6 +34,9 @@ private:
     void CheckPlaneAndLevelGUI();
     void CheckBombsAndGround();
     void __fastcall CheckDestoyableObjects(Bomb* pBomb);
+
+    BombIterator begin() const;
+    BombIterator end() const;
 
     Ground * FindGround() const;
     Plane * FindPlane() const;
