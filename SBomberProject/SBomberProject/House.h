@@ -14,8 +14,10 @@ public:
 
 	void Draw() const override;
 
-private:
+	friend class HouseBuilderA;
 
+private:
 	const uint16_t score = 40;
+	char look[7][14];
 };
 

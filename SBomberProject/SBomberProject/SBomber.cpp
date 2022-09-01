@@ -9,6 +9,7 @@
 #include "Tank.h"
 #include "House.h"
 #include "FileLogger.h"
+#include "HouseConstruct.h"
 
 using namespace std;
 using namespace MyTools;
@@ -62,16 +63,10 @@ SBomber::SBomber()
     House * pHouse = new House;
     pHouse->SetWidth(13);
     pHouse->SetPos(80, groundY - 1);
-    vecStaticObj.push_back(pHouse);
-
-    /*
-    Bomb* pBomb = new Bomb;
-    pBomb->SetDirection(0.3, 1);
-    pBomb->SetSpeed(2);
-    pBomb->SetPos(51, 5);
-    pBomb->SetSize(SMALL_CRATER_SIZE);
-    vecDynamicObj.push_back(pBomb);
-    */
+    HouseConstruct* pConstructor = new HouseConstruct();
+    pConstructor->SetHouse(pHouse);
+    vecStaticObj.push_back(pConstructor->ConstructChimn());
+    delete pConstructor;
 }
 
 SBomber::~SBomber()
@@ -208,14 +203,6 @@ vector<Bomb*> SBomber::FindAllBombs() const
     {
         vecBombs.push_back(dynamic_cast<Bomb*>(*it));
     }
-    //for (size_t i = 0; i < vecDynamicObj.size(); i++)
-    //{
-    //    Bomb* pBomb = dynamic_cast<Bomb*>(vecDynamicObj[i]);
-    //    if (pBomb != nullptr)
-    //    {
-    //        vecBombs.push_back(pBomb);
-    //    }
-    //}
     return vecBombs;
 }
 
