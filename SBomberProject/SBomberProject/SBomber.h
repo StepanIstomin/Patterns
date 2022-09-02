@@ -9,6 +9,7 @@
 #include "Tank.h"
 #include "Command.h"
 #include "BombIterator.h"
+#include "CollisionDetector.h"
 
 class SBomber
 {
@@ -52,4 +53,6 @@ private:
     uint64_t startTime, finishTime, passedTime;
     uint16_t bombsNumber, deltaTime, fps;
     int16_t score;
+
+    CollisionDetector* pCollisionDetector;
 };

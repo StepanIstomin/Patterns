@@ -22,7 +22,8 @@ SBomber::SBomber()
     passedTime(0),
     fps(0),
     bombsNumber(10),
-    score(0)
+    score(0),
+    pCollisionDetector()
 {
     FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
 
@@ -67,6 +68,7 @@ SBomber::SBomber()
     pConstructor->SetHouse(pHouse);
     vecStaticObj.push_back(pConstructor->ConstructChimn());
     delete pConstructor;
+
 }
 
 SBomber::~SBomber()
@@ -105,55 +107,12 @@ void SBomber::CheckObjects()
 {
     FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
 
-    CheckPlaneAndLevelGUI();
-    CheckBombsAndGround();
-}
-
-void SBomber::CheckPlaneAndLevelGUI()
-{
-    if (FindPlane()->GetX() > FindLevelGUI()->GetFinishX())
-    {
+    if (pCollisionDetector->CheckPlaneAndLevelGUI(FindPlane()->GetX(), FindLevelGUI()->GetFinishX())) {
         exitFlag = true;
     }
+    pCollisionDetector->CheckBombsAndGround(FindAllBombs(), FindGround(), FindDestoyableGroundObjects(), vecDynamicObj, vecStaticObj, &score);
 }
 
-void SBomber::CheckBombsAndGround() 
-{
-    vector<Bomb*> vecBombs = FindAllBombs();
-    Ground* pGround = FindGround();
-    const double y = pGround->GetY();
-    for (size_t i = 0; i < vecBombs.size(); i++)
-    {
-        if (vecBombs[i]->GetY() >= y) // Пересечение бомбы с землей
-        {
-            pGround->AddCrater(vecBombs[i]->GetX());
-            CheckDestoyableObjects(vecBombs[i]);
-            CommandDeleteDynamicObj* command = new CommandDeleteDynamicObj(vecBombs[i],vecDynamicObj);
-            command->execute();
-            delete command;
-        }
-    }
-
-}
-
-void SBomber::CheckDestoyableObjects(Bomb * pBomb)
-{
-    vector<DestroyableGroundObject*> vecDestoyableObjects = FindDestoyableGroundObjects();
-    const double size = pBomb->GetWidth();
-    const double size_2 = size / 2;
-    for (size_t i = 0; i < vecDestoyableObjects.size(); i++)
-    {
-        const double x1 = pBomb->GetX() - size_2;
-        const double x2 = x1 + size;
-        if (vecDestoyableObjects[i]->isInside(x1, x2))
-        {
-            score += vecDestoyableObjects[i]->GetScore();
-            CommandDeleteStaticObj* command = new CommandDeleteStaticObj(vecDestoyableObjects[i], vecStaticObj);
-            command->execute();
-            delete command;
-        }
-    }
-}
 vector<DestroyableGroundObject*> SBomber::FindDestoyableGroundObjects() const
 {
     vector<DestroyableGroundObject*> vec;
