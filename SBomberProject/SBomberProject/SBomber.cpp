@@ -20,7 +20,8 @@ SBomber::SBomber()
     passedTime(0),
     fps(0),
     bombsNumber(10),
-    score(0)
+    score(0),
+    logVisitor()
 {
     WriteToLog(string(__FUNCTION__) + " was invoked");
 
@@ -100,6 +101,7 @@ void SBomber::MoveObjects()
     {
         if (vecDynamicObj[i] != nullptr)
         {
+            vecDynamicObj[i]->Accept(logVisitor);
             vecDynamicObj[i]->Move(deltaTime);
         }
     }
