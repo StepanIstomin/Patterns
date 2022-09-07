@@ -40,6 +40,8 @@ void LevelGUI::Draw() const
     cout << "BombsNum: " << bombsNumber;
     GotoXY(62, 1);
     cout << "Score: " << score;
+    GotoXY(6, 27);
+    cout << "Tank crew message: " << message;
 }
 
 void __fastcall LevelGUI::SetParam(uint64_t passedTimeNew, uint64_t fpsNew, uint16_t bombsNumberNew, int16_t scoreNew)
@@ -48,4 +50,13 @@ void __fastcall LevelGUI::SetParam(uint64_t passedTimeNew, uint64_t fpsNew, uint
     fps = fpsNew;
     bombsNumber = bombsNumberNew;
     score = scoreNew;
+    if (!tankMessages.empty()) {
+        if (passedTime > 1000 && rand() % 1000 <= 10) {
+            message = tankMessages.front();
+            tankMessages.pop();
+        }
+    }
+    else {
+        message = "";
+    }
 }

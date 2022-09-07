@@ -41,4 +41,27 @@ void Tank::Draw() const
 	cout << "    #####";
 	GotoXY(x,y);
 	cout << " ###########";
+	int seed = rand() % 200;
+	string message;
+	switch (seed)
+	{
+	case 1:
+		message = "You smeared!";
+		break;
+	case 2:
+		message = "Come get some!";
+		break;
+	case 3:
+		message = "The armor is strong and our tanks are fast!";
+		break;
+	case 4:
+		message = "We'll shoot you down!";
+		break;
+
+	default:
+		message = "";
+		break;
+	}
+	if (message != "")
+		mediator.SendMessage(message);
 }

@@ -1,8 +1,11 @@
 #pragma once
 
+#include <queue>
 #include <stdint.h>
+#include <string>
 
 #include "GameObject.h"
+#include "Mediator.h"
 
 class LevelGUI : public GameObject {
 public:
@@ -18,6 +21,7 @@ public:
 
     void Draw() const override;
 
+    friend class Mediator;
 private:
 
     uint16_t height;
@@ -26,6 +30,9 @@ private:
     uint64_t passedTime, fps;
     uint16_t bombsNumber;
     int16_t score;
+
+    static std::queue <std::string> tankMessages;
+    std::string message;
 };
 
 
