@@ -7,6 +7,8 @@
 #include "Bomb.h"
 #include "Ground.h"
 #include "Tank.h"
+#include "BigPlane.h"
+#include "ColorPlane.h"
 
 class SBomber
 {
