@@ -25,6 +25,8 @@ public:
     void MoveObjects();
     void CheckObjects();
 
+    void AnimateScrolling();
+
 private:
 
     void CheckPlaneAndLevelGUI();
@@ -50,4 +52,39 @@ private:
     uint64_t startTime, finishTime, passedTime;
     uint16_t bombsNumber, deltaTime, fps;
     int16_t score;
+
+    static const size_t ScrollHeight = 30;
+    static const size_t ScrollWidth = 30;
+    inline static const char* ppScroll[ScrollHeight] =
+    {   "                      ",
+        " Creators:            ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        " Project manager:     ",
+        "   Ivan Vasilevich    ",
+        "                      ",
+        " Developers:          ",
+        "   Nikolay Gavrilov   ",
+        "   Dmitriy Sidelnikov ",
+        "   Eva Brown          ",
+        "                      ",
+        " Designers:           ",
+        "   Anna Pachenkova    ",
+        "   Elena Shvaiber     ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      ",
+        "                      "
+    };
 };

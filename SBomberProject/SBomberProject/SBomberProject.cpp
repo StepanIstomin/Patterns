@@ -32,7 +32,7 @@ int main(void)
         game.TimeFinish();
 
     } while (!game.GetExitFlag());
-
+    game.AnimateScrolling();
     FileLoggerSingletone::getInstance().CloseLogFile();
 
     return 0;

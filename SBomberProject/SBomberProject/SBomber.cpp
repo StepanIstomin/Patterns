@@ -112,7 +112,29 @@ void SBomber::CheckObjects()
 
     CheckPlaneAndLevelGUI();
     CheckBombsAndGround();
-};
+}
+void SBomber::AnimateScrolling()
+{
+    FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
+    const size_t windowHeight = 10; // Размер окна для скроллинга
+    const size_t startX = MyTools::GetMaxX() / 2 - ScrollWidth / 2;
+    const size_t startY = MyTools::GetMaxY() / 2 - windowHeight / 2;
+    double curPos = 0;
+    do {
+        TimeStart();
+        MyTools::ClrScr();
+        for (size_t i = 0; i < windowHeight; i++)
+        {
+            GotoXY(startY, i);
+            cout << ppScroll[static_cast<int>(curPos)+i];
+        }
+        MyTools::GotoXY(0, 0);
+        TimeFinish();
+        curPos += deltaTime * 0.0015;
+        Sleep(5);
+    } while (!_kbhit() && int(curPos) <= (ScrollHeight - windowHeight));
+    MyTools::ClrScr();
+}
 
 void SBomber::CheckPlaneAndLevelGUI()
 {
