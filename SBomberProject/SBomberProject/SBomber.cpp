@@ -300,6 +300,14 @@ void SBomber::ProcessKBHit()
         DropBomb();
         break;
 
+    case 'd':
+        DropDoubleBomb();
+        break;
+
+    case 'D':
+        DropDoubleBomb();
+        break;
+
     default:
         break;
     }
@@ -365,5 +373,35 @@ void SBomber::DropBomb()
         vecDynamicObj.push_back(pBomb);
         bombsNumber--;
         score -= Bomb::BombCost;
+    }
+}
+
+void SBomber::DropDoubleBomb()
+{
+    if (bombsNumber > 0)
+    {
+        FileLoggerSingletone::getInstance().WriteToLog(string(__FUNCTION__) + " was invoked");
+
+        Plane* pPlane = FindPlane();
+        double x = pPlane->GetX() + 4;
+        double y = pPlane->GetY() + 2;
+
+        Bomb* pBomb = new Bomb;
+        pBomb->SetDirection(0.3, 1);
+        pBomb->SetSpeed(2);
+        pBomb->SetPos(x, y);
+        pBomb->SetWidth(SMALL_CRATER_SIZE);
+
+        vecDynamicObj.push_back(pBomb);
+        bombsNumber--;
+        score -= Bomb::BombCost;
+
+        if (bombsNumber > 0) {
+            Bomb* pCloneBomb = pBomb->clone();
+            pCloneBomb->SetPos(x+2, y);
+            vecDynamicObj.push_back(pCloneBomb);
+            bombsNumber--;
+            score -= Bomb::BombCost;
+        }
     }
 }

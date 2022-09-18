@@ -41,6 +41,7 @@ private:
     std::vector<Bomb*> FindAllBombs() const;
 
     void DropBomb();
+    void DropDoubleBomb();
 
     std::vector<DynamicObject*> vecDynamicObj;
     std::vector<GameObject*> vecStaticObj;
